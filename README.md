@@ -2,6 +2,7 @@
 
 ## EBNF da linguagem
 
+```
 BLOCK = {STATEMENT} ;
 
 ASSIGNMENT = IDENTIFIER "=" EXPRESSION ;
@@ -51,6 +52,7 @@ EXPRESSION = TERM, {("+" | "-"), TERM} ;
 TERM = FACTOR, {("*" | "/"), FACTOR} ;
 
 FACTOR = {("+" | "-"), FACTOR} | IDENTIFIER | NUMBER | ("(", EXPRESSION, ")") ;
+```
 
 # Exemplo de uso da linguagem 
 
