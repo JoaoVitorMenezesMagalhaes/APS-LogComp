@@ -51,9 +51,9 @@ EXPRESSION = TERM, {("+" | "-"), TERM} ;
 
 EXPRESSION = CONDITION, { ("||" | "&&"), CONDITION } ;
 
-CONDITION = TERM, { ("<" | ">" | "==" | "!"), TERM } ;
+CONDITION = TERM, { ( "==" | "\/"), TERM } ;
 
-TERM = FACTOR, {("*" | "/"), FACTOR} ;
+TERM = FACTOR, {("*" | "//"), FACTOR} ;
 
 FACTOR = {("+" | "-"), FACTOR} | IDENTIFIER | NUMBER | ("(", EXPRESSION, ")") ;
 ```

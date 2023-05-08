@@ -57,8 +57,35 @@ extern int yydebug;
     IDENTIFIER = 258,              /* IDENTIFIER  */
     NUMBER = 259,                  /* NUMBER  */
     STRING = 260,                  /* STRING  */
-    LOWER_THAN_ELSE = 261,         /* LOWER_THAN_ELSE  */
-    UNARY = 262                    /* UNARY  */
+    FUNCTION = 261,                /* FUNCTION  */
+    CLASS = 262,                   /* CLASS  */
+    IF = 263,                      /* IF  */
+    ELSE = 264,                    /* ELSE  */
+    WHILE = 265,                   /* WHILE  */
+    FOR = 266,                     /* FOR  */
+    IN = 267,                      /* IN  */
+    SPECIES = 268,                 /* SPECIES  */
+    RETURN = 269,                  /* RETURN  */
+    ASSIGN = 270,                  /* ASSIGN  */
+    LBRACKET = 271,                /* LBRACKET  */
+    RBRACKET = 272,                /* RBRACKET  */
+    NOT = 273,                     /* NOT  */
+    EQ = 274,                      /* EQ  */
+    DIVIDE = 275,                  /* DIVIDE  */
+    NEQ = 276,                     /* NEQ  */
+    AND = 277,                     /* AND  */
+    OR = 278,                      /* OR  */
+    PRINT = 279,                   /* PRINT  */
+    COLON = 280,                   /* COLON  */
+    COMMA = 281,                   /* COMMA  */
+    LPAREN = 282,                  /* LPAREN  */
+    RPAREN = 283,                  /* RPAREN  */
+    LBRACE = 284,                  /* LBRACE  */
+    RBRACE = 285,                  /* RBRACE  */
+    PLUS = 286,                    /* PLUS  */
+    MINUS = 287,                   /* MINUS  */
+    TIMES = 288,                   /* TIMES  */
+    NEWLINE = 289                  /* NEWLINE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

@@ -3,115 +3,132 @@
 #include <stdlib.h>
 #include <string.h>
 
-void yyerror(const char* msg);
 int yylex(void);
-
+void yyerror(const char *s);
 %}
 
-%start BLOCK
+%token IDENTIFIER NUMBER STRING FUNCTION CLASS IF ELSE WHILE FOR IN SPECIES RETURN ASSIGN LBRACKET RBRACKET NOT EQ DIVIDE NEQ AND OR PRINT COLON COMMA LPAREN RPAREN LBRACE RBRACE PLUS MINUS TIMES NEWLINE
 
-%token IDENTIFIER NUMBER STRING LOWER_THAN_ELSE UNARY
-
-%%
-
-BLOCK:
-    | BLOCK STATEMENT
-    ;
-
-STATEMENT:
-      ASSIGNMENT '\n'
-    | CONDITIONAL '\n'
-    | PRINT '\n'
-    | LOOP '\n'
-    | SPECIES '\n'
-    ;
-
-ASSIGNMENT:
-      IDENTIFIER '=' EXPRESSION
-    ;
-
-CONDITIONAL:
-      IF_EXPRESSION ':' BLOCK %prec LOWER_THAN_ELSE
-    | IF_EXPRESSION ':' BLOCK ELSE_EXPRESSION
-    ;
-
-IF_EXPRESSION:
-      '<' EXPRESSION '>'
-    ;
-
-ELSE_EXPRESSION:
-      "else" ':' BLOCK
-    ;
-
-LOOP:
-      WHILE_LOOP
-    | FOR_LOOP
-    ;
-
-WHILE_LOOP:
-      "while" '<' EXPRESSION '>' ':' BLOCK
-    ;
-
-FOR_LOOP:
-      "for" '<' IDENTIFIER "in" RANGE '>' ':' BLOCK
-    ;
-
-RANGE:
-      '[' NUMBER ':' NUMBER ']'
-    ;
-
-PRINT:
-      '!' '<' EXPRESSION '>'
-    ;
-
-SPECIES:
-      "species" '<' IDENTIFIER '>' ':' ATTRIBUTE_LIST ';'
-    ;
-
-ATTRIBUTE_LIST:
-      ATTRIBUTE
-    | ATTRIBUTE ',' ATTRIBUTE_LIST
-    ;
-
-ATTRIBUTE:
-      IDENTIFIER '=' LITERAL
-    ;
-
-LITERAL:
-      STRING
-    | NUMBER
-    ;
-
-EXPRESSION:
-      TERM
-    | TERM '+' EXPRESSION
-    | TERM '-' EXPRESSION
-    ;
-
-TERM:
-      FACTOR
-    | FACTOR '*' TERM
-    | FACTOR '/' TERM
-    ;
-
-FACTOR:
-      IDENTIFIER
-    | NUMBER
-    | '(' EXPRESSION ')'
-    | '+' FACTOR %prec UNARY
-    | '-' FACTOR %prec UNARY
-    ;
+%start block
 
 %%
 
-void yyerror(const char* msg)
-{
-    fprintf(stderr, "Error: %s\n", msg);
-    exit(1);
+block:
+    statement
+    ;
+
+statement:
+    assignment
+    | conditional
+    | print
+    | loop
+    | species
+    | function
+    | class
+    ;
+
+assignment:
+    IDENTIFIER ASSIGN expression
+    ;
+
+conditional:
+    IF LBRACKET expression RBRACKET COLON block else_block_opt
+    ;
+
+else_block_opt:
+    /* empty */
+    | ELSE COLON block
+    ;
+
+loop:
+    while_loop
+    | for_loop
+    ;
+
+while_loop:
+    WHILE LBRACKET expression RBRACKET COLON block
+    ;
+
+for_loop:
+    FOR LBRACKET IDENTIFIER IN range RBRACKET COLON block
+    ;
+
+range:
+    LBRACE NUMBER COLON NUMBER RBRACE
+
+function:
+    FUNCTION IDENTIFIER LBRACKET parameters_opt RBRACKET COLON block
+    ;
+
+parameters_opt:
+    /* empty */
+    | parameter_list
+    ;
+
+parameter_list:
+    IDENTIFIER
+    | parameter_list COMMA IDENTIFIER
+    ;
+
+class:
+    CLASS IDENTIFIER COLON block
+    ;
+
+print:
+    PRINT LBRACKET expression RBRACKET
+    ;
+
+species:
+    SPECIES LBRACKET IDENTIFIER RBRACKET COLON attribute_list
+    ;
+
+attribute_list:
+    attribute
+    | attribute_list COMMA attribute
+    ;
+
+attribute:
+    IDENTIFIER ASSIGN literal
+    ;
+
+literal:
+    STRING
+    | NUMBER
+    ;
+
+expression:
+    condition
+    | expression OR condition
+    ;
+
+condition:
+    term
+    | condition EQ term
+    | condition NOT term
+    ;
+
+term:
+    factor
+    | term DIVIDE factor
+    | term TIMES factor
+    ;
+
+factor:
+    IDENTIFIER
+    | NUMBER
+    | STRING
+    | LPAREN expression RPAREN
+    | MINUS factor
+    | PLUS factor
+    ;
+
+%%
+
+void yyerror(const char *s) {
+    printf("%s\n", s);
 }
 
-int main(int argc, char** argv)
-{
+int main() {
     yyparse();
     return 0;
 }
