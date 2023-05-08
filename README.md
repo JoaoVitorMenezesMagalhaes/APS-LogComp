@@ -49,6 +49,10 @@ CHAR = (LETTER | DIGIT | " " | "-" | "_" | "." | "," | "!" | "?") ;
 
 EXPRESSION = TERM, {("+" | "-"), TERM} ;
 
+EXPRESSION = CONDITION, { ("||" | "&&"), CONDITION } ;
+
+CONDITION = TERM, { ("<" | ">" | "==" | "!"), TERM } ;
+
 TERM = FACTOR, {("*" | "/"), FACTOR} ;
 
 FACTOR = {("+" | "-"), FACTOR} | IDENTIFIER | NUMBER | ("(", EXPRESSION, ")") ;
