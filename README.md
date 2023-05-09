@@ -76,3 +76,12 @@ species <elephant>:
 ! <'Tigers are ' + tiger.size + ' meters long and ' + tiger.color + ' and eat ' + tiger.diet + '.'>
 ! <'Elephants are ' + elephant.size + ' meters long and ' + elephant.color + ' and eat ' + elephant.diet + '.'>
 ```
+
+# Uso do Flex e Bison
+
+```
+flex -l lexer.l
+bison -dv parser.y 
+gcc -o analyzer parser.tab.c lex.yy.c -lfl
+./analyzer < exemplo.txt
+```
