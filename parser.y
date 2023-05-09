@@ -11,6 +11,11 @@ void yyerror(const char *s);
 
 %start block
 
+%union {
+    int numval;
+    char *strval;
+}
+
 %%
 
 block:
@@ -28,7 +33,11 @@ statement:
     ;
 
 assignment:
-    IDENTIFIER ASSIGN expression
+    IDENTIFIER ASSIGN if_expression
+    ;
+
+if_expression:
+    condition COLON block else_block_opt
     ;
 
 conditional:
@@ -75,7 +84,7 @@ class:
     ;
 
 print:
-    PRINT LBRACKET expression RBRACKET
+    PRINT LBRACKET if_expression RBRACKET
     ;
 
 species:
@@ -117,7 +126,7 @@ factor:
     IDENTIFIER
     | NUMBER
     | STRING
-    | LPAREN expression RPAREN
+    | LPAREN if_expression RPAREN
     | MINUS factor
     | PLUS factor
     ;

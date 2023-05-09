@@ -62,17 +62,17 @@ FACTOR = {("+" | "-"), FACTOR} | IDENTIFIER | NUMBER | ("(", EXPRESSION, ")") ;
 
 ```ruby
 species <tiger>:
-  color = "orange"
+  color = 'orange'
   size = 3.3
-  diet = "carnivore"
+  diet = 'carnivore'
 ;
 
 species <elephant>:
-  color = "gray"
+  color = 'gray'
   size = 4.5
-  diet = "herbivore"
+  diet = 'herbivore'
 ;
 
-! <"Tigers are " + tiger.size + " meters long and " + tiger.color + " and eat " + tiger.diet + ".">
-! <"Elephants are " + elephant.size + " meters long and " + elephant.color + " and eat " + elephant.diet + ".">
+! <'Tigers are ' + tiger.size + ' meters long and ' + tiger.color + ' and eat ' + tiger.diet + '.'>
+! <'Elephants are ' + elephant.size + ' meters long and ' + elephant.color + ' and eat ' + elephant.diet + '.'>
 ```

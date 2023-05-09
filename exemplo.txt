@@ -1,0 +1,22 @@
+species <Animal>:
+  name = 'Animal'
+  legs = 4
+
+class Mammal:
+  name = 'Mammal'
+  has_fur = True
+
+function print_num<val>:
+  !<val>
+
+cat = Animal()
+dog = Animal()
+human = Mammal()
+
+if <cat.legs == dog.legs>:
+  print_num<cat.legs>
+else:
+  print_num<dog.legs>
+
+for <i in [0:3]>:
+  print_num<i>

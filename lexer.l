@@ -5,6 +5,7 @@
 #include <string.h>
 %}
 
+
 %%
 
 "function"   { return FUNCTION; }
