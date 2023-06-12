@@ -57,52 +57,45 @@ extern int yydebug;
     IDENTIFIER = 258,              /* IDENTIFIER  */
     NUMBER = 259,                  /* NUMBER  */
     STRING = 260,                  /* STRING  */
-    FUNCTION = 261,                /* FUNCTION  */
-    CLASS = 262,                   /* CLASS  */
+    NEWLINE = 261,                 /* NEWLINE  */
+    FUNCTION = 262,                /* FUNCTION  */
     IF = 263,                      /* IF  */
     ELSE = 264,                    /* ELSE  */
     WHILE = 265,                   /* WHILE  */
-    FOR = 266,                     /* FOR  */
-    IN = 267,                      /* IN  */
-    SPECIES = 268,                 /* SPECIES  */
-    RETURN = 269,                  /* RETURN  */
-    ASSIGN = 270,                  /* ASSIGN  */
-    LBRACKET = 271,                /* LBRACKET  */
-    RBRACKET = 272,                /* RBRACKET  */
-    NOT = 273,                     /* NOT  */
-    EQ = 274,                      /* EQ  */
-    DIVIDE = 275,                  /* DIVIDE  */
-    NEQ = 276,                     /* NEQ  */
-    AND = 277,                     /* AND  */
-    OR = 278,                      /* OR  */
-    PRINT = 279,                   /* PRINT  */
-    COLON = 280,                   /* COLON  */
-    COMMA = 281,                   /* COMMA  */
-    LPAREN = 282,                  /* LPAREN  */
-    RPAREN = 283,                  /* RPAREN  */
-    LBRACE = 284,                  /* LBRACE  */
-    RBRACE = 285,                  /* RBRACE  */
-    PLUS = 286,                    /* PLUS  */
-    MINUS = 287,                   /* MINUS  */
-    TIMES = 288,                   /* TIMES  */
-    NEWLINE = 289                  /* NEWLINE  */
+    IN = 266,                      /* IN  */
+    SPECIES = 267,                 /* SPECIES  */
+    IS = 268,                      /* IS  */
+    LBRACKET = 269,                /* LBRACKET  */
+    RBRACKET = 270,                /* RBRACKET  */
+    LBRACE = 271,                  /* LBRACE  */
+    RBRACE = 272,                  /* RBRACE  */
+    PRINT = 273,                   /* PRINT  */
+    COMMA = 274,                   /* COMMA  */
+    ASSIGN = 275,                  /* ASSIGN  */
+    EQ = 276,                      /* EQ  */
+    NOT = 277,                     /* NOT  */
+    MULT = 278,                    /* MULT  */
+    DIV = 279,                     /* DIV  */
+    PLUS = 280,                    /* PLUS  */
+    MINUS = 281,                   /* MINUS  */
+    AND = 282,                     /* AND  */
+    OR = 283,                      /* OR  */
+    LT = 284,                      /* LT  */
+    GT = 285,                      /* GT  */
+    HERBIVORE = 286,               /* HERBIVORE  */
+    CARNIVORE = 287,               /* CARNIVORE  */
+    OMNIVORE = 288,                /* OMNIVORE  */
+    MAMMAL = 289,                  /* MAMMAL  */
+    BIRD = 290,                    /* BIRD  */
+    REPTILE = 291,                 /* REPTILE  */
+    FISH = 292                     /* FISH  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-union YYSTYPE
-{
-#line 14 "parser.y"
-
-    int numval;
-    char *strval;
-
-#line 103 "parser.tab.h"
-
-};
-typedef union YYSTYPE YYSTYPE;
+typedef int YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

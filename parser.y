@@ -7,72 +7,47 @@ int yylex(void);
 void yyerror(const char *s);
 %}
 
-%token IDENTIFIER NUMBER STRING FUNCTION IF ELSE WHILE IN SPECIES IS ASSIGN LBRACKET RBRACKET NOT EQ DIVIDE AND OR PRINT COLON COMMA PLUS MINUS TIMES NEWLINE
+%token IDENTIFIER NUMBER STRING NEWLINE
+%token FUNCTION IF ELSE WHILE IN SPECIES IS 
+%token LBRACKET RBRACKET LBRACE RBRACE PRINT COMMA
+%token ASSIGN EQ NOT MULT DIV PLUS MINUS AND OR LT GT
 %token HERBIVORE CARNIVORE OMNIVORE MAMMAL BIRD REPTILE FISH
 
-%start block
+%start program
 
 %%
 
+program:
+    statement_list
+    ;
+
 block:
-    statement NEWLINE
+    LBRACE statement_list RBRACE
+    | LBRACE RBRACE
     ;
 
-statement:
-    assignment
-    | conditional
-    | print
-    | loop
-    | species   
-    | function
+statement_list:
+    statement
+    | statement_list statement
     ;
 
-assignment:
-    IDENTIFIER ASSIGN if_expression
-    ;
-
-if_expression:
-    condition COLON block else_block_opt
-    ;
-
-conditional:
-    IF LBRACKET expression RBRACKET COLON block else_block_opt
-    ;
-
-else_block_opt:
-    /* empty */
-    | ELSE COLON block
-    ;
-
-loop:
-    while_loop
-    ;
-
-while_loop:
-    WHILE LBRACKET expression RBRACKET COLON block
-    ;
-
-function:
-    FUNCTION IDENTIFIER LBRACKET parameters_opt RBRACKET COLON block
-    ;
-
-parameters_opt:
-    /* empty */
-    | parameter_list
-    ;
+statement : SPECIES IDENTIFIER IS type
+          | IDENTIFIER ASSIGN relexpression
+          | PRINT LBRACKET relexpression RBRACKET
+          | IF LBRACKET relexpression RBRACKET block
+          | IF LBRACKET relexpression RBRACKET block ELSE block
+          | WHILE LBRACKET relexpression RBRACKET block 
+          | FUNCTION IDENTIFIER LBRACKET parameter_list RBRACKET block
+          | IDENTIFIER LBRACKET parameter_list RBRACKET
+          | NEWLINE
+          ;
 
 parameter_list:
-    IDENTIFIER
+    /* empty */
+    | IDENTIFIER
     | parameter_list COMMA IDENTIFIER
     ;
 
-print:
-    PRINT LBRACKET if_expression RBRACKET
-    ;
-
-species:
-    SPECIES IDENTIFIER IS type
-    ;
 
 type:
     HERBIVORE
@@ -84,31 +59,33 @@ type:
     | FISH
     ;
 
-expression:
-    condition
-    | expression OR condition
+relexpression: expression EQ expression
+             | expression GT expression
+             | expression LT expression
+             | expression
+             ;
+
+expression: term PLUS term
+          | term MINUS term
+          | term OR term
+          | term
+          ;
+          
+term: factor
+    | term MULT factor
+    | term DIV factor
+    | term AND factor
     ;
 
-condition:
-    term
-    | condition EQ term
-    | NOT term
-    ;
-
-term:
-    factor
-    | term DIVIDE factor
-    | term TIMES factor
-    ;
-
-factor:
-    IDENTIFIER
-    | NUMBER
-    | STRING
-    | LBRACKET expression RBRACKET
-    | MINUS factor
+factor: NUMBER 
+    | STRING 
+    | IDENTIFIER 
     | PLUS factor
+    | MINUS factor
+    | NOT factor
+    | LBRACKET relexpression RBRACKET
     ;
+
 
 %%
 
