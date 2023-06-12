@@ -3,78 +3,74 @@
 ## EBNF da linguagem
 
 ```
-BLOCK = {STATEMENT} ;
+BLOCK = { STATEMENT } ;
 
 ASSIGNMENT = IDENTIFIER "=" EXPRESSION ;
 
-STATEMENT = ( ASSIGNMENT | CONDITIONAL | PRINT | LOOP | SPECIES | λ), "\n" ; 
+STATEMENT = ( ASSIGNMENT | CONDITIONAL | PRINT | WHILE_LOOP | FUNCTION | SPECIES | λ ), "\n" ; 
 
-CONDITIONAL = "if" "<" EXPRESSION ">" ":" BLOCK ["else" BLOCK] ;
+IF = "if" "(" EXPRESSION ")", BLOCK [ "else", BLOCK ] ;
 
-LOOP = WHILE_LOOP | FOR_LOOP ;
+WHILE_LOOP = "while" "(" EXPRESSION ")", BLOCK ;
 
-WHILE_LOOP = "while" "<" EXPRESSION ">" ":" BLOCK ;
+FUNCTION = "function" IDENTIFIER "(" [ PARAMETERS ] ")", BLOCK ;
 
-FOR_LOOP = "for" "<" IDENTIFIER "in" RANGE ">" ":" BLOCK ;
+PARAMETERS = IDENTIFIER { "," IDENTIFIER } ;
 
-RANGE = "[" NUMBER ":" NUMBER "]" ;
+PRINT = "!" "(" EXPRESSION ")" ; 
 
-FUNCTION = "function" IDENTIFIER "<" [ PARAMETERS ] ">" ":" BLOCK ;
+SPECIE = "specie" IDENTIFIER "is" TYPE;
 
-PARAMETERS = IDENTIFIER, {"," IDENTIFIER} ;
+TYPE = "herbivore" | "carnivore" | "omnivore" | "mammal" | "bird" | "reptile" | "fish" ;
 
-CLASS = "class" IDENTIFIER ":" BLOCK ;
+IDENTIFIER = LETTER { LETTER | DIGIT } ;
 
-PRINT = "!" "<" EXPRESSION ">" ; 
+LETTER = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" ;
 
-SPECIES = "species" "<" IDENTIFIER ">" ":" ATTRIBUTE_LIST ";" ;
+DIGIT = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
 
-ATTRIBUTE_LIST = ATTRIBUTE, {"," ATTRIBUTE} ;
+NUMBER = DIGIT { DIGIT } ;
 
-ATTRIBUTE = IDENTIFIER "=" LITERAL ;
+STRING = '"' , { CHAR } , '"' ;
 
-LITERAL = STRING | NUMBER ;
-
-IDENTIFIER = LETTER, {LETTER | DIGIT} ;
-
-LETTER = (a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z | A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z) ;
-
-DIGIT = (0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9) ;
-
-NUMBER = DIGIT, {DIGIT} ;
-
-STRING = "'" , {CHAR}, "'" ;
-
-CHAR = (LETTER | DIGIT | " " | "-" | "_" | "." | "," | "!" | "?") ;
-
-EXPRESSION = TERM, {("+" | "-"), TERM} ;
+CHAR = LETTER | DIGIT | " " | "-" | "_" | "." | "," | "!" | "?" ;
 
 EXPRESSION = CONDITION, { ("||" | "&&"), CONDITION } ;
 
-CONDITION = TERM, { ( "==" | "\/"), TERM } ;
+CONDITION = TERM, { ("<" | ">" | "==" | "not"), TERM } ;
 
 TERM = FACTOR, {("*" | "//"), FACTOR} ;
 
-FACTOR = {("+" | "-"), FACTOR} | IDENTIFIER | NUMBER | ("(", EXPRESSION, ")") ;
+FACTOR = {("+" | "-"), FACTOR} | IDENTIFIER | NUMBER | "(", EXPRESSION, ")" ;
+
 ```
 
 # Exemplo de uso da linguagem 
 
 ```ruby
-species <tiger>:
-  color = 'orange'
-  size = 3.3
-  diet = 'carnivore'
-;
 
-species <elephant>:
-  color = 'gray'
-  size = 4.5
-  diet = 'herbivore'
-;
+species Dog is mammal
+species Sparrow is bird
 
-! <'Tigers are ' + tiger.size + ' meters long and ' + tiger.color + ' and eat ' + tiger.diet + '.'>
-! <'Elephants are ' + elephant.size + ' meters long and ' + elephant.color + ' and eat ' + elephant.diet + '.'>
+function bark(){
+    !("WOOF WOOF!")
+}
+
+if (Dog == "mammal") {
+    !("Dog is a mammal")
+    bark()
+} else {
+    !("Dog is not a mammal")
+}
+
+if (Dog == Sparrow) {
+    !("Dog and Sparrow are the same species")
+} else {
+    !("Dog and Sparrow are not the same species")
+    !(Dog)
+    !(Sparrow)
+}
+
 ```
 
 # Uso do Flex e Bison

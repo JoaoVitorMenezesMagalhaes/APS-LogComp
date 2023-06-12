@@ -7,19 +7,15 @@ int yylex(void);
 void yyerror(const char *s);
 %}
 
-%token IDENTIFIER NUMBER STRING FUNCTION CLASS IF ELSE WHILE FOR IN SPECIES RETURN ASSIGN LBRACKET RBRACKET NOT EQ DIVIDE NEQ AND OR PRINT COLON COMMA LPAREN RPAREN LBRACE RBRACE PLUS MINUS TIMES NEWLINE
+%token IDENTIFIER NUMBER STRING FUNCTION IF ELSE WHILE IN SPECIES IS ASSIGN LBRACKET RBRACKET NOT EQ DIVIDE AND OR PRINT COLON COMMA PLUS MINUS TIMES NEWLINE
+%token HERBIVORE CARNIVORE OMNIVORE MAMMAL BIRD REPTILE FISH
 
 %start block
-
-%union {
-    int numval;
-    char *strval;
-}
 
 %%
 
 block:
-    statement
+    statement NEWLINE
     ;
 
 statement:
@@ -27,9 +23,8 @@ statement:
     | conditional
     | print
     | loop
-    | species
+    | species   
     | function
-    | class
     ;
 
 assignment:
@@ -51,19 +46,11 @@ else_block_opt:
 
 loop:
     while_loop
-    | for_loop
     ;
 
 while_loop:
     WHILE LBRACKET expression RBRACKET COLON block
     ;
-
-for_loop:
-    FOR LBRACKET IDENTIFIER IN range RBRACKET COLON block
-    ;
-
-range:
-    LBRACE NUMBER COLON NUMBER RBRACE
 
 function:
     FUNCTION IDENTIFIER LBRACKET parameters_opt RBRACKET COLON block
@@ -79,30 +66,22 @@ parameter_list:
     | parameter_list COMMA IDENTIFIER
     ;
 
-class:
-    CLASS IDENTIFIER COLON block
-    ;
-
 print:
     PRINT LBRACKET if_expression RBRACKET
     ;
 
 species:
-    SPECIES LBRACKET IDENTIFIER RBRACKET COLON attribute_list
+    SPECIES IDENTIFIER IS type
     ;
 
-attribute_list:
-    attribute
-    | attribute_list COMMA attribute
-    ;
-
-attribute:
-    IDENTIFIER ASSIGN literal
-    ;
-
-literal:
-    STRING
-    | NUMBER
+type:
+    HERBIVORE
+    | CARNIVORE
+    | OMNIVORE
+    | MAMMAL
+    | BIRD
+    | REPTILE
+    | FISH
     ;
 
 expression:
@@ -113,7 +92,7 @@ expression:
 condition:
     term
     | condition EQ term
-    | condition NOT term
+    | NOT term
     ;
 
 term:
@@ -126,7 +105,7 @@ factor:
     IDENTIFIER
     | NUMBER
     | STRING
-    | LPAREN if_expression RPAREN
+    | LBRACKET expression RBRACKET
     | MINUS factor
     | PLUS factor
     ;
